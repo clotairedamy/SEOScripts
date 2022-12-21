@@ -1,0 +1,58 @@
+// This function will iterate over all script tags on the page and check if they contain a Google Analytics tracking code
+function findGA() {
+    // Initialize a flag to track whether any Google Analytics tags are found
+    var gaFound = false;
+  
+    // Get all script tags on the page
+    var scripts = document.getElementsByTagName('script');
+  
+    // Iterate over each script tag
+    for (var i = 0; i < scripts.length; i++) {
+      // Get the current script tag
+      var script = scripts[i];
+  
+      // Check if the script tag contains a Google Analytics tracking code
+      if (script.src.indexOf('google-analytics.com/analytics.js') !== -1 || script.src.indexOf('www.google-analytics.com/analytics.js') !== -1 || script.src.indexOf('google-analytics.com/ga.js') !== -1 || script.src.indexOf('www.google-analytics.com/ga.js') !== -1) {
+        // If the script tag contains a Google Analytics tracking code, extract the GA measurement ID from the URL
+        var gaId = script.src.split('=').pop();
+  
+        // Print the GA measurement ID to the console
+        console.log('GA measurement ID:', gaId);
+  
+        // Set the gaFound flag to true
+        gaFound = true;
+      }
+  
+      // Check if the script tag contains a Google Tag Manager tracking code
+      if (script.src.indexOf('googletagmanager.com/gtm.js') !== -1 || script.src.indexOf('www.googletagmanager.com/gtm.js') !== -1) {
+        // If the script tag contains a Google Tag Manager tracking code, extract the GTM measurement ID from the URL
+        var gtmId = script.src.split('=').pop();
+  
+        // Print the GTM measurement ID to the console
+        console.log('GTM measurement ID:', gtmId);
+  
+        // Set the gaFound flag to true
+        gaFound = true;
+      }
+  
+      // Check if the script tag contains a Universal Analytics tracking code
+      if (script.src.indexOf('google-analytics.com/analytics.js') !== -1 || script.src.indexOf('www.google-analytics.com/analytics.js') !== -1) {
+        // If the script tag contains a Universal Analytics tracking code, extract the UA measurement ID from the script tag
+        var uaId = script.text.match(/UA-[0-9]+-[0-9]+/);
+  
+        // Print the UA measurement ID to the console
+        console.log('UA measurement ID:', uaId);
+  
+        // Set the gaFound flag to true
+        gaFound = true;
+      }
+    }
+  
+    // If no Google Analytics tags are found, print "No Analytics Installed" to the console
+    if (!gaFound) {
+      console.log('No Analytics Installed');
+    }
+  }
+  
+  // Call the findGA function to start searching for Google Analytics tags on the
+  findGA()
